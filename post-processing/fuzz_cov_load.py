@@ -155,9 +155,13 @@ def llvm_cov_load(target_dir, target_name=None):
                     cp.covmap[curr_func] = list()
                 # This parses Branch cov info in the form of:
                 #  |  Branch (81:7): [True: 1.2k, False: 0]
-                if curr_func and "Branch" in line:
+                if curr_func and "Branch (" in line:
                     try:
                         line_number = line.split('(')[1].split(':')[0]
+                    except Exception:
+                        continue
+                    try:
+                        column_number = line.split(':')[1].split(')')[0]
                     except Exception:
                         continue
 
@@ -175,7 +179,7 @@ def llvm_cov_load(target_dir, target_name=None):
                                         ".", ""))
                     except Exception:
                         continue
-                    branch_string = curr_func + ':' + line_number
+                    branch_string = curr_func + ':' + line_number + ',' + column_number
                     cp.branch_cov_map[branch_string] = (true_hit, false_hit)
                 # Parse lines that signal specific line of code. These lines only
                 # offer after the function names parsed above.
