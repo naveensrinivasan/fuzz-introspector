@@ -83,7 +83,8 @@ def run_analysis_on_dir(target_folder,
             profile,
             project_profile,
             coverage_url,
-            project_profile.basefolder)
+            project_profile.basefolder,
+            branch_profiles)
 
     logger.info(f"Analyses to run: {str(analyses_to_run)}")
 
